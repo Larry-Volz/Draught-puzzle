@@ -8,3 +8,7 @@ They can move to an empty spot directly or they can jump the object next to them
 (like checkers)
 It IS possible to beat it. 
 But it's NOT easy :)
+
+To run it all you need to do is bring it up in a browser. 
+
+Feel free to use it without license but an acknowledgement in the code is appreicated.
