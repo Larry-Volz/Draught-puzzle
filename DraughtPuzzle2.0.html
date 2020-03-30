@@ -1,0 +1,451 @@
+<html>
+    <head>
+        <title>JQuery</title>
+        
+        <!-- API script for JQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        
+        <style ="text/css">
+        
+            .circle{
+                background-color: green;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                margin: auto;
+            }
+            
+            .square{
+                background-color: red;
+                width:50px;
+                height: 50px;
+                margin:auto;
+            }
+            table{
+                width:100%;
+            }
+            table, th, td{
+                border-style: inset;
+                border: 1px solid black;
+                
+            }
+            th, td{
+                height:100px;
+                widows: 50px;
+                }
+
+        
+            .emptyCell{
+                width:50px;
+                height: 50px;
+                float:right;
+                margin:auto;
+            }
+            p{margins=20px;}
+            
+            #floatRight{float: right;}
+            
+            body{background-image: linear-gradient(to right, deepskyblue , aliceblue);
+            background-color: }
+            
+
+        
+        </style>
+        
+ <!--######################### END CSS #####################-->   
+    
+    </head>
+    <body>
+
+        <center><h1>Genius Tester</h1></center>
+   <table>
+        <tr>
+            <td><div id=space0></div>
+            </td>
+            <td><div id=space1></div>
+            </td>
+            <td><div id=space2></div>
+            </td>
+            <td><div id=space3></div>
+            </td>
+            <td><div id=space4></div>
+            </td>
+            <td><div id=space5></div>
+            </td>
+            <td><div id=space6></div>
+            </td>
+            
+          
+            </tr>
+        </table> <br />
+        Your OBJECTIVE is to see if you can get all the red pieces on the left and the green pieces on the right.<br />
+        <p><uL><li>To play the game click on a piece to move it.</li>  <li>Red moves left.  Green moves right.</li><li> If there is a piece in the way but an empty spot on the other side it jumps it like in checkers (but does not take the piece).</li><br /></uL></p>
+        <p>To play again Just cntrl-refresh to refresh the screen</p><p>GOOD LUCK!</p>
+        <p id="floatRight"><em>If you had fun with this silliness<br /> check out what we can do with mobile escape room fun! <br />  <a href="http://www.realescaperoom.net">RealEscapeRoom.net</a></em></p>
+        
+        
+ <!--       
+        <div class="circle"></div>
+        <div class="square"></div> -->
+        
+<!-- ###############################END HTML/START JS ############## -->
+        
+<!--######################### Setup variables and functions #######-->
+        
+       <script type="text/javascript">
+         
+        var i;
+        var ii="";
+        var cellNumber=0;
+        var winLose=0;
+        var over=0;
+        var isSquareCircleOrEmpty=0;
+        var convertToString="";
+        var currentCell="";
+        var numMoves=0;
+           
+        var squareOrCircle = new Array();
+            squareOrCircle[0]=1; //0-empty, 1=circle, 2=square
+            squareOrCircle[1]=1; 
+            squareOrCircle[2]=1; 
+            squareOrCircle[3]=0;
+            squareOrCircle[4]=2;
+            squareOrCircle[5]=2;
+            squareOrCircle[6]=2;
+           
+            //Later might be better to do this with an object
+           
+        var winArray = [2,2,2,0,1,1,1];
+
+           
+        function putCircleInCell(cellNumber){
+            
+            $(idLable[cellNumber]).css("background-color","green");
+            $(idLable[cellNumber]).css("border-radius","50%");
+            $(idLable[cellNumber]).css("height","52px");
+            $(idLable[cellNumber]).css("width","52px");
+            $(idLable[cellNumber]).css("margin","auto");
+                squareOrCircle[cellNumber]=1; //put circle in game array
+            
+        }
+           
+           function putSquareInCell(cellNumber){
+            
+            $(idLable[cellNumber]).css("background-color","red");
+            $(idLable[cellNumber]).css("width","50px");
+            $(idLable[cellNumber]).css("height","50px");
+            $(idLable[cellNumber]).css("border-radius","0%");
+            $(idLable[cellNumber]).css("margin","auto");
+               squareOrCircle[cellNumber]=2; //put square in game array
+            
+        }
+           
+            function putSpaceInCell(cellNumber){
+            
+            $(idLable[cellNumber]).css("background-color","transparent");
+            $(idLable[cellNumber]).css("width","50px");
+            $(idLable[cellNumber]).css("height","50px");
+            $(idLable[cellNumber]).css("margin","auto");
+                squareOrCircle[cellNumber]=0; //put empty in game array
+            
+        }
+                      
+                   //create id labels for all 7 boxes idLable[0-6]   
+        var idLable = new Array();
+           for (i=0; i<7; i++){
+               ii=i.toString();
+               idLable[i]="#space"+ii;
+               
+                // in this td insert whatever...              
+               //$(idLable[i]).html(idLable[i]); //FOR TESTING ONLY
+               
+           }
+           
+//???????????????????????????????????????????????????
+           
+     /*      
+        function isCorrect(){
+            
+               var counter=0;
+            
+               for(j=0; j<7; j++){
+                   if(squareOrCircle[j]==isCorrect[j]){
+                       counter++;
+                   }
+                }
+            
+            if(j==7 && numMoves>=){
+                    ("p").html("<H1>YOU WON!!!<H2>")
+                }else{
+                    counter=0;
+                }
+        }
+        
+           
+       */    
+           
+           
+        function gameReset(){
+            squareOrCircle[0]=1; //0-empty, 1=circle, 2=square
+            squareOrCircle[1]=1; 
+            squareOrCircle[2]=1; 
+            squareOrCircle[3]=0;
+            squareOrCircle[4]=2;
+            squareOrCircle[5]=2;
+            squareOrCircle[6]=2;
+        }
+           
+        function ShowBoard(){
+   
+           for(i=0; i<7; i++){
+               
+               if(squareOrCircle[i]==1){
+                   putCircleInCell(i);
+               
+                   
+             } else if (squareOrCircle[i]==2){
+                       putSquareInCell(i);
+                       
+             } else{ putSpaceInCell(i);  }
+               
+               
+                   
+            //   isCorrect();
+               
+           } //end for-loop
+                          
+  
+                
+           
+           }// end of function
+     
+           
+           
+ /*###################### GAME LOGIC ########################*/
+          
+        //Set pieces for start of game
+           
+        ShowBoard();
+                
+           
+//######################################### MAIN GAME LOGIC ##################################
+           
+                  
+           
+//    ******************************** SQUARE MOVING LOGIC ***********************************
+           
+            $(idLable[6]).click(function(){
+               if(squareOrCircle[6]==2 && squareOrCircle[5]==0){
+                   squareOrCircle[6]=0;
+                   squareOrCircle[5]=2;
+                     }
+               else if(squareOrCircle[6]==2 && squareOrCircle[5]>0 && squareOrCircle[4]==0){
+                   squareOrCircle[6]=0;
+                   squareOrCircle[4]=2;
+               }
+               ShowBoard();
+                numMoves++;
+
+               
+           })           
+           
+           
+            $(idLable[5]).click(function(){
+               if(squareOrCircle[5]==2 && squareOrCircle[4]==0){
+                   squareOrCircle[5]=0;
+                   squareOrCircle[4]=2;
+                     }
+               else if(squareOrCircle[5]==2 && squareOrCircle[4]>0 && squareOrCircle[3]==0){
+                   squareOrCircle[5]=0;
+                   squareOrCircle[3]=2;
+               }
+               ShowBoard();
+                numMoves++;
+
+               
+           })
+           
+           
+           $(idLable[4]).click(function(){
+               if(squareOrCircle[4]==2 && squareOrCircle[3]==0){
+                   squareOrCircle[4]=0;
+                   squareOrCircle[3]=2;
+                     }
+               else if(squareOrCircle[4]==2 && squareOrCircle[3]>0 && squareOrCircle[2]==0){
+                   squareOrCircle[4]=0;
+                   squareOrCircle[2]=2;
+               }
+               ShowBoard();
+              numMoves++;
+
+               
+           })
+           
+         $(idLable[3]).click(function(){
+               if(squareOrCircle[3]==2 && squareOrCircle[2]==0){
+                   squareOrCircle[3]=0;
+                   squareOrCircle[2]=2;
+                     }
+               else if(squareOrCircle[3]==2 && squareOrCircle[2]>0 && squareOrCircle[1]==0){
+                   squareOrCircle[3]=0;
+                   squareOrCircle[1]=2;
+               }
+             ShowBoard();
+            numMoves++;
+             
+               
+           })
+           
+           
+           $(idLable[2]).click(function(){
+               if(squareOrCircle[2]==2 && squareOrCircle[1]==0){
+                   squareOrCircle[2]=0;
+                   squareOrCircle[1]=2;
+                     }
+               else if(squareOrCircle[2]==2 && squareOrCircle[1]>0 && squareOrCircle[0]==0){
+                   squareOrCircle[2]=0;
+                   squareOrCircle[0]=2;
+               }
+               ShowBoard();
+               numMoves++;
+               
+           })
+           
+           $(idLable[1]).click(function(){
+               if(squareOrCircle[1]==2 && squareOrCircle[0]==0){
+                   squareOrCircle[1]=0;
+                   squareOrCircle[0]=2;
+                     }
+               
+               ShowBoard();
+               numMoves++;
+               
+           })
+           
+
+           
+           
+//    ******************************** CIRCLE MOVING LOGIC ***********************************
+           
+       $(idLable[0]).click(function(){
+               if(squareOrCircle[0]==1 && squareOrCircle[1]==0){
+                   squareOrCircle[0]=0;
+                   squareOrCircle[1]=1;
+                     }
+               else if(squareOrCircle[0]==1 && squareOrCircle[1]>0 && squareOrCircle[2]==0){
+                   squareOrCircle[0]=0;
+                   squareOrCircle[2]=1;
+                   
+               }
+           ShowBoard();
+           numMoves++;
+           
+                  })
+ 
+                
+         $(idLable[1]).click(function(){
+               if(squareOrCircle[1]==1 && squareOrCircle[2]==0){
+                   squareOrCircle[1]=0;
+                   squareOrCircle[2]=1;
+                     }
+               else if(squareOrCircle[1]==1 && squareOrCircle[2]>0 && squareOrCircle[3]==0){
+                   squareOrCircle[1]=0;
+                   squareOrCircle[3]=1;
+                   
+               }
+             ShowBoard();
+             numMoves++;
+        
+        })  
+            
+                
+         $(idLable[2]).click(function(){
+               if(squareOrCircle[2]==1 && squareOrCircle[3]==0){
+                   squareOrCircle[2]=0;
+                   squareOrCircle[3]=1;
+                     }
+               else if(squareOrCircle[2]==1 && squareOrCircle[3]>0 && squareOrCircle[4]==0){
+                   squareOrCircle[2]=0;
+                   squareOrCircle[4]=1;
+                   
+               }
+             ShowBoard();
+             numMoves++;
+        
+        })        
+           
+                           
+         $(idLable[3]).click(function(){
+               if(squareOrCircle[3]==1 && squareOrCircle[4]==0){
+                   squareOrCircle[3]=0;
+                   squareOrCircle[4]=1;
+                     }
+               else if(squareOrCircle[3]==1 && squareOrCircle[4]>0 && squareOrCircle[5]==0){
+                   squareOrCircle[3]=0;
+                   squareOrCircle[5]=1;
+                   
+               }
+             ShowBoard();
+             numMoves++;
+        
+        })    
+                
+        
+         $(idLable[4]).click(function(){
+               if(squareOrCircle[4]==1 && squareOrCircle[5]==0){
+                   squareOrCircle[4]=0;
+                   squareOrCircle[5]=1;
+                     }
+               else if(squareOrCircle[4]==1 && squareOrCircle[5]>0 && squareOrCircle[6]==0){
+                   squareOrCircle[4]=0;
+                   squareOrCircle[6]=1;
+                   
+               }
+             ShowBoard();
+             numMoves++;
+        
+        })    
+           
+         $(idLable[5]).click(function(){
+               if(squareOrCircle[5]==1 && squareOrCircle[6]==0){
+                   squareOrCircle[5]=0;
+                   squareOrCircle[6]=1;
+                     }
+
+             ShowBoard();
+             numMoves++;
+        
+        })    
+                
+        
+   
+                
+        
+           
+     
+                
+           
+   /*  ***************DOES NOT WORK AND I DON'T KNOW WHY?! ***********
+            for(i=0; i<7; i++){
+           
+           $(idLable[i]).click(function(){
+               if(squareOrCircle[i]==2 && squareOrCircle[i-1]==0){
+                   squareOrCircle[i]=0;
+                   squareOrCircle[i-1]=2;
+                     }
+               ShowBoard();
+               
+           })
+           
+           }
+           
+          */ 
+           
+               
+
+        
+        </script>
+        
+        
+    </body>
+</html>
